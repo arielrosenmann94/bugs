@@ -83,3 +83,13 @@ python manage.py migrate
 python manage.py seed_pokemon
 python manage.py createsuperuser
 ```
+
+---
+
+## 🚨 IMPORTANTE — `BUGS_INSTRUCTOR.md`
+
+Existe un archivo llamado `BUGS_INSTRUCTOR.md` que contiene la lista completa de todos los errores con sus soluciones. **NO LO LEAN BAJO NINGUNA CIRCUNSTANCIA** mientras trabajan en la práctica. El objetivo es que ustedes encuentren y resuelvan cada bug por su cuenta (con ayuda de IA como copiloto).
+
+Este archivo será revisado **al final** de la práctica junto al instructor para verificar cuántos bugs lograron encontrar y corregir.
+
+> Si lo leen antes de terminar, pierden toda la experiencia de aprendizaje. Confíen en el proceso. 🧠
