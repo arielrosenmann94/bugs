@@ -16,7 +16,7 @@ media/
 venv/
 env/
 .venv/
-
+env_bugs/
 # IDE
 .vscode/
 .idea/
@@ -33,5 +33,3 @@ staticfiles/
 static_root/
 
 # Instructor docs
-BUGS_INSTRUCTOR.md
-pokedex_project/BUGS_INSTRUCTOR.md
