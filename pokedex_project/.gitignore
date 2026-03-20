@@ -17,6 +17,7 @@ venv/
 env/
 .venv/
 env_bugs/
+env_bugs
 # IDE
 .vscode/
 .idea/
