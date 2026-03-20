@@ -1,0 +1,33 @@
+{% extends "pokemon/base.html" %}
+
+{% block title %}Entrenadores - Pokédex{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Entrenadores Pokémon</h1>
+</div>
+
+<div class="trainer-grid">
+    {% for trainer in trainers %}
+    <div class="trainer-card">
+        <div class="trainer-avatar">
+            {% if trainer.profile_image %}
+            <img src="{{ trainer.profile_image }}" alt="{{ trainer.name }}">
+            {% else %}
+            <div class="avatar-placeholder">{{ trainer.name|first }}</div>
+            {% endif %}
+        </div>
+        <div class="trainer-info">
+            <h3 class="trainer-name">{{ trainer.name }}</h3>
+            <p class="trainer-badges">🏅 {{ trainer.badge_count }} insignias</p>
+            <p class="trainer-pokemon-count">Pokémon: {{ trainer.pokemon_count }}</p>
+            <a href="{% url 'trainer_detail' trainer.pk %}" class="btn btn-sm btn-primary">Ver perfil</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <p>No hay entrenadores registrados 😢</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

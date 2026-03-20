@@ -1,0 +1,56 @@
+{% extends "pokemon/base.html" %}
+
+{% block title %}{{ trainer.name }} - Pokédex{% endblock %}
+
+{% block content %}
+<div class="trainer-detail">
+    <div class="detail-header">
+        <a href="{% url 'trainer_list' %}" class="btn btn-back">← Volver</a>
+        <h1>{{ trainer.name }}</h1>
+    </div>
+
+    <div class="trainer-profile">
+        <div class="trainer-avatar-large">
+            {% if trainer.profile_image %}
+            <img src="{{ trainer.profile_image }}" alt="{{ trainer.name }}">
+            {% else %}
+            <div class="avatar-placeholder-large">{{ trainer.name|first }}</div>
+            {% endif %}
+        </div>
+        <div class="trainer-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ trainer.badge_count }}</span>
+                <span class="stat-label">Insignias</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ trainer.pokemon_count }}</span>
+                <span class="stat-label">Pokémon</span>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">Pokémon del entrenador</h2>
+    <div class="pokemon-grid">
+        {% for pokemon in trainer.pokemon.all %}
+        <div class="pokemon-card">
+            <div class="card-header">
+                <span class="pokemon-number">#{{ pokemon.pokedex_number }}</span>
+            </div>
+            {% if pokemon.image_url %}
+            <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" class="pokemon-image">
+            {% else %}
+            <div class="pokemon-image-placeholder">?</div>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="pokemon-name">{{ pokemon.name }}</h3>
+                <a href="{% url 'pokemon_detail' pokemon.pk %}" class="btn btn-sm btn-primary">Ver</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>Este entrenador no tiene Pokémon aún 😢</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

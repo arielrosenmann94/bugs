@@ -1,0 +1,22 @@
+{% extends "pokemon/base.html" %}
+
+{% block title %}Eliminar {{ pokemon.name }} - Pokédex{% endblock %}
+
+{% block content %}
+<div class="delete-page">
+    <div class="delete-card">
+        <div class="delete-icon">⚠️</div>
+        <h1>¿Eliminar Pokémon?</h1>
+        <p>¿Estás seguro que deseas eliminar a <strong>{{ pokemon.name }}</strong> (#{{ pokemon.pokedex_number }})?</p>
+        <p class="delete-warning">Esta acción no se puede deshacer.</p>
+        
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <div class="delete-actions">
+                <button type="submit" class="btn btn-danger">🗑️ Sí, eliminar</button>
+                <a href="{% url 'pokemon_detail' pokemon.pk %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

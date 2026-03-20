@@ -1,0 +1,108 @@
+{% extends "pokemon/base.html" %}
+{% load pokemon_extras %}
+
+{% block title %}{{ pokemon.name }} - Pokédex{% endblock %}
+
+{% block content %}
+<div class="pokemon-detail">
+    <div class="detail-header">
+        <a href="{% url 'pokemon_list' %}" class="btn btn-back">← Volver</a>
+        <h1 class="pokemon-detail-name">{{ pokemon.name }}</h1>
+        <span class="pokemon-detail-number">#{{ pokemon.pokedex_number }}</span>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-image-section">
+            {% if pokemon.image_url %}
+            <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" class="detail-image">
+            {% else %}
+            <div class="detail-image-placeholder">?</div>
+            {% endif %}
+            
+            <div class="detail-actions">
+                <form action="{% url 'toggle_favorite' pokemon.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-favorite">⭐ Favorito</button>
+                </form>
+                <a href="{% url 'pokemon_update' pokemon.pk %}" class="btn btn-edit">✏️ Editar</a>
+                <a href="{% url 'pokemon_delete' pokemon.pk %}" class="btn btn-danger">🗑️ Eliminar</a>
+            </div>
+        </div>
+
+        <div class="detail-info-section">
+            <div class="info-card">
+                <h3>Información</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Región</span>
+                        <span class="info-value">{{ pokemon.region.name }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Altura</span>
+                        <span class="info-value">{{ pokemon.height }} m</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Peso</span>
+                        <span class="info-value">{{ pokemon.weight }} kg</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tipos</span>
+                        <div class="info-types">
+                            {% for type in pokemon.types.all %}
+                            <span class="type-badge" style="background-color: {{ type|pokemon_type_color }}">{{ type.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if pokemon.legendary %}
+            <div class="legendary-badge">
+                🌟 Pokémon Legendario
+            </div>
+            {% endif %}
+
+            <div class="info-card">
+                <h3>Estadísticas</h3>
+                <div class="stats-container">
+                    <div class="stat-bar">
+                        <span class="stat-name">HP</span>
+                        <div class="stat-bar-outer">
+                            <div class="stat-bar-inner" style="width: {{ pokemon.hp|format_stat }}%"></div>
+                        </div>
+                        <span class="stat-value">{{ pokemon.hp }}</span>
+                    </div>
+                    <div class="stat-bar">
+                        <span class="stat-name">Ataque</span>
+                        <div class="stat-bar-outer">
+                            <div class="stat-bar-inner" style="width: {{ pokemon.attack|format_stat }}%"></div>
+                        </div>
+                        <span class="stat-value">{{ pokemon.attack }}</span>
+                    </div>
+                    <div class="stat-bar">
+                        <span class="stat-name">Defensa</span>
+                        <div class="stat-bar-outer">
+                            <div class="stat-bar-inner" style="width: {{ pokemon.defense|format_stat }}%"></div>
+                        </div>
+                        <span class="stat-value">{{ pokemon.defense }}</span>
+                    </div>
+                    <div class="stat-bar">
+                        <span class="stat-name">Velocidad</span>
+                        <div class="stat-bar-outer">
+                            <div class="stat-bar-inner" style="width: {{ pokemon.speed|format_stat }}%"></div>
+                        </div>
+                        <span class="stat-value">{{ pokemon.speed }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if pokemon.description %}
+            <div class="info-card">
+                <h3>Descripción</h3>
+                <p class="pokemon-description">{{ pokemon.description }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

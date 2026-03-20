@@ -1,0 +1,45 @@
+{% extends "pokemon/bse.html" %}
+
+{% block title %}Buscar: {{ query }} - Pokédex{% endblock %}
+
+{% block content %}
+<div class="search-page">
+    <div class="page-header">
+        <h1 class="page-title">Resultados de búsqueda</h1>
+        {% if query %}
+        <p class="search-query">Resultados para: <strong>"{{ query }}"</strong></p>
+        {% endif %}
+    </div>
+
+    <div class="search-form-container">
+        <form action="{% url 'pokemon_search' %}" method="get" class="search-form-large">
+            <input type="text" name="q" value="{{ query }}" placeholder="Buscar Pokémon..." class="search-input-large">
+            <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+        </form>
+    </div>
+
+    <div class="pokemon-grid">
+        {% for pokemon in results %}
+        <div class="pokemon-card">
+            <div class="card-header">
+                <span class="pokemon-number">#{{ pokemon.pokedex_number }}</span>
+            </div>
+            {% if pokemon.image_url %}
+            <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" class="pokemon-image">
+            {% else %}
+            <div class="pokemon-image-placeholder">?</div>
+            {% endif %}
+            <div class="card-body">
+                <h3 class="pokemon-name">{{ pokemon.name }}</h3>
+                <a href="{% url 'pokemon_detail' pokemon.pk %}" class="btn btn-sm btn-primary">Ver detalle</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>No se encontraron Pokémon con ese nombre 😢</p>
+            <a href="{% url 'pokemon_list' %}" class="btn btn-primary">Ver todos</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pokédex{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'pokemon/css/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'pokemon_list' %}" class="nav-logo">
+                <span class="logo-icon">⚡</span> Pokédex
+            </a>
+            <div class="nav-links">
+                <a href="{% url 'pokemon_list' %}" class="nav-link">Pokémon</a>
+                <a href="{% url 'trainer_list' %}" class="nav-link">Entrenadores</a>
+                <a href="{% url 'favorites_list' %}" class="nav-link">⭐ Favoritos</a>
+            </div>
+            <div class="nav-search">
+                <form action="{% url 'pokemon_search' %}" method="get">
+                    <input type="text" name="q" placeholder="Buscar Pokémon..." class="search-input">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
+            </div>
+            <button class="nav-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Pokédex - Proyecto de Debugging</p>
+            <p>Total Pokémon: {{ pokemon_count }} | Tipos: {{ type_count }}</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+{% extends "pokemon/base.html" %}
+
+{% block title %}Pokédex - Todos los Pokémon{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{% if title %}{{ title }}{% else %}Pokédex{% endif %}</h1>
+    {% if current_type %}
+    <span class="type-badge" style="background-color: {{ current_type.color }}">
+        {{ current_type.name }}
+    </span>
+    {% endif %}
+</div>
+
+<div class="type-filters">
+    <a href="{% url 'pokemon_list' %}" class="type-filter-btn active">Todos</a>
+</div>
+
+<div class="pokemon-grid">
+    {% for pokemon in pokemon_list %}
+    <div class="pokemon-crd">
+        <div class="card-header">
+            <span class="pokemon-number">#{{ pokemon.pokedex_number }}</span>
+            <a href="{% url 'pokemon_detalle' pokemon.pk %}" class="favorite-btn">⭐</a>
+        </div>
+        {% if pokemon.image_url %}
+        <img src="{{ pokemon.image_url }}" alt="{{ pokemon.name }}" class="pokemon-image">
+        {% else %}
+        <div class="pokemon-image-placeholder">?</div>
+        {% endif %}
+        <div class="card-body">
+            <h3 class="pokemon-name">{{ pokemon.name }</h3>
+            <div class="pokemon-types">
+                {% for type in pokemon.types.all %}
+                <span class="type-badge" style="background-color: {{ type.color }}">{{ type.name }}</span>
+                {% endfor %}
+            </div>
+            <div class="pokemon-stats-mini">
+                <span>HP: {{ pokemon.hp }}</span>
+                <span>ATK: {{ pokemon.attack }}</span>
+                <span>DEF: {{ pokemon.defense }}</span>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <p>No se encontraron Pokémon 😢</p>
+        <a href="{% url 'pokemon_create' %}" class="btn btn-primary">Agregar Pokémon</a>
+    </div>
+    {% endblock %}
+</div>
+
+{% if pokemon_list.has_other_pages %}
+<nav class="pagination">
+    {% if pokemon_list.has_previous %}
+    <a href="?page={{ pokemon_list.previous_page_number }}" class="page-link">← Anterior</a>
+    {% endif %}
+    
+    {% for num in pokemon_list.paginator.page_range %}
+    <a href="?page={{ num }}" class="page-link {% if pokemon_list.number == num %}active{% endif %}">{{ num }}</a>
+    {% endfor %}
+    
+    {% if pokemon_list.has_next %}
+    <a href="?page={{ pokemon_list.next_page_number }}" class="page-link">Siguiente →</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}
